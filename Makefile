@@ -6,20 +6,22 @@
 #    By: selcyilm <selcyilm@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/11/24 20:36:11 by selcyilm      #+#    #+#                  #
-#    Updated: 2024/11/24 21:02:18 by selcyilm      ########   odam.nl          #
+#    Updated: 2024/12/20 13:59:22 by selcyilm      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
-SRCS = main.c \
+SRCS = main.c fn_input_parse.c
 
 SRC_DIR = src
 OBJ_DIR = obj
+INCLUDE = include
 
 OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
-CC = cc -Wall -Werror -Wextra -g
+CC = cc -Wall -Werror -Wextra -g3 -fsanitize=address,undefined,leak
+#CC = cc -Wall -Werror -Wextra -g3 -fsanitize=thread -pthread
 
 COLOUR_GREEN=\033[35m
 COLOUR_BLUE=\033[0;36m
@@ -29,14 +31,14 @@ COLOUR_ORANGE=\033[38;5;214m
 all: $(NAME)
 
 $(NAME) : $(OBJ_DIR) $(OBJS)
-	@$(CC) $(OBJS) -o $(NAME)
+	@$(CC) $(OBJS)  -o $(NAME)
 	@echo "$(COLOUR_ORANGE)PHILOSOPERS ARE READY TO GO..$(COLOUR_END)"
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
-	@$(CC) -c $< -o $@
+	@$(CC) -I$(INCLUDE) -c $< -o $@
 	@echo "$(COLOUR_GREEN)CREATING $@$(COLOUR_END)"
 
 clean: 
