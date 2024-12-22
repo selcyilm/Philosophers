@@ -6,13 +6,13 @@
 #    By: selcyilm <selcyilm@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/11/24 20:36:11 by selcyilm      #+#    #+#                  #
-#    Updated: 2024/12/20 13:59:22 by selcyilm      ########   odam.nl          #
+#    Updated: 2024/12/22 18:42:22 by selcyilm      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
-SRCS = main.c fn_input_parse.c
+SRCS = main.c fn_input_parse.c thread.c mutex_handle.c
 
 SRC_DIR = src
 OBJ_DIR = obj
