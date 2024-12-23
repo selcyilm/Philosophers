@@ -6,13 +6,13 @@
 #    By: selcyilm <selcyilm@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/11/24 20:36:11 by selcyilm      #+#    #+#                  #
-#    Updated: 2024/12/22 18:42:22 by selcyilm      ########   odam.nl          #
+#    Updated: 2024/12/23 20:10:19 by selcyilm      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
-SRCS = main.c fn_input_parse.c thread.c mutex_handle.c
+SRCS =dinner.c  init_table.c  main.c  parse_input.c  philo.c  print.c  printer.c  time.c  utils.c 
 
 SRC_DIR = src
 OBJ_DIR = obj
@@ -20,8 +20,8 @@ INCLUDE = include
 
 OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
-CC = cc -Wall -Werror -Wextra -g3 -fsanitize=address,undefined,leak
-#CC = cc -Wall -Werror -Wextra -g3 -fsanitize=thread -pthread
+#CC = cc -Wall -Werror -Wextra -g3 -fsanitize=address,undefined,leak
+CC = cc -Wall -Werror -Wextra -g3 -fsanitize=thread -pthread
 
 COLOUR_GREEN=\033[35m
 COLOUR_BLUE=\033[0;36m
@@ -48,6 +48,9 @@ clean:
 fclean: clean
 	@rm -rf $(NAME)
 	@echo "$(COLOUR_BLUE)REMOVING EXECUTABLE FOR PHILO$(COLOUR_END)"
+
+norm:
+	norminette
 
 re: fclean all
 

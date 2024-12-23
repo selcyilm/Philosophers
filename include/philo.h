@@ -6,7 +6,7 @@
 /*   By: selcyilm <selcyilm@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/24 20:36:04 by selcyilm      #+#    #+#                 */
-/*   Updated: 2024/12/22 17:22:51 by selcyilm      ########   odam.nl         */
+/*   Updated: 2024/12/23 17:34:18 by selcyilm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,59 +23,73 @@
 # include <pthread.h>
 
 typedef pthread_mutex_t t_mtx;
-typedef struct s_philo t_philo;
 
-typedef enum e_mutex_type
+typedef struct s_list
 {
-	INIT,
-	DESTROY,
-	LOCK,
-	UNLOCK,
-}	t_mutex_type;
+	long			ms;
+	int				i;
+	char			s[20];
+	struct s_list	*next;
+}	t_list;
 
-typedef enum e_thread_type
+typedef struct s_env
 {
-	CREATE,
-	DETACH,
-	JOIN,
-}	t_thread_type;
+	int	c_meal;
+	int	end;
+	long	start;
+	struct s_phi	*phi;
+	t_mtx			*fork;
+	t_mtx			m_print;
+	pthread_t		printer;
+	int				t_die;
+	int				t_eat;
+	int				t_sleep;
+	int				n_phi;
+	int				n_meal;
+}	t_env;
 
-
-typedef struct s_fork
+typedef struct s_phi
 {
-	t_mtx	fork;
-	int		fork_id;
-}	t_fork;
+	int	id;
+	int	end;
+	int	c_meal;
+	long	t_ate;
+	t_env	*e;
+	t_list	*l;
+	pthread_t	philo;
+	t_mtx		m_eat;
+	t_mtx		m_l;
+}	t_phi;
 
-typedef struct s_table
-{
-	long	philo_nbr;
-	long	time_to_die;
-	long	time_to_eat;
-	long	time_to_sleep;
-	long	nbr_limit_meals;
-	long	start_simulation;
-	bool	end_simulation;
-	t_fork	*forks;
-	t_philo	*philos;
-}	t_table;
 
-typedef struct s_philo
-{
-	int			id;
-	long		meal_numbers;
-	bool		full;
-	long		last_meal_time;
-	t_fork		*left_fork;
-	t_fork		*rigt_fork;
-	pthread_t	thread_id;
-	t_table		*table;
-}	t_philo;
+//PARSE
+int		parse_input(t_env *e, int ac, char **av);
 
-void	print_error(const char *message);
-void	fn_input_parse(t_table *table, char **av);
+//INIT_TABLE
+int		init_table(t_env *e);
 
-int		mutex_handle(t_mtx *mutex, t_mutex_type type);
-int		thread_handle(pthread_t *thread, void *(*foo)(void *), void *data, t_thread_type type);
+//UTILS
+int		print_error_msg(const char *msg);
+int		ft_strcmp(char *s1, char *s2);
+
+//PRINTER
+void	*thread_printer(void *input);
+int		check_end(t_env *e);
+
+//PRINT
+int		count_meal(t_phi *p, t_list *l);
+int		add_cond(long ms, t_phi *p, char *s);
+
+//PHILO
+void	*thread_philo(void *input);
+int		check_starvation(t_phi *p);
+
+//TIME
+void	ft_better_sleep(long time);
+long	dinner_time(t_env *e);
+long	cur_time(void);
+
+//DINNER
+int		start_dinner(t_env *e);
 
 #endif

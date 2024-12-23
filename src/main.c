@@ -11,116 +11,84 @@
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	print_table(t_table *table)
+static void	join_threads(t_env *e)
 {
-	printf("Philo Number: %ld\n", table->philo_nbr);
-	printf("Time to die: %ld\n", table->time_to_die);
-	printf("Time to eat: %ld\n", table->time_to_eat);
-	printf("Time to sleep: %ld\n", table->time_to_sleep);
-	printf("Number of time philo should eat: %ld\n", table->nbr_limit_meals);
+	int	i;
+
+	i = -1;
+	pthread_join(e->printer, NULL);
+	while (++i < e->n_phi)
+		pthread_join(e->phi[i].philo, NULL);
 }
 
-void	print_error(const char *message)
+static void	clean_table(t_env *e)
 {
-	printf("%s\n", message);
-	exit(EXIT_FAILURE);
-}
+	t_list	*tmp;
+	t_list	*cur;
+	int		i;
 
-# define SUM 1000
-
-t_mtx		mutex;
-
-void	*one(void *args)
-{
-	int *num = (int *)args;
-	while (*num < SUM)
+	pthread_mutex_destroy(&e->m_print);
+	i = -1;
+	while (++i < e->n_phi)
+		pthread_mutex_destroy(&(e->fork[i]));
+	free(e->fork);
+	i = -1;
+	while (++i < e->n_phi)
 	{
-		mutex_handle(&mutex, LOCK);
-		if (*num + 1 <= SUM)
+		cur = e->phi[i].l;
+		while (cur)
 		{
-			printf("Thread 1: Counter + 1 = %d\n", *num + 1);
-			*num += 1;
+			tmp = cur;
+			cur = cur->next;
+			free(tmp);
 		}
-		mutex_handle(&mutex, UNLOCK);
+		pthread_mutex_destroy(&(e->phi[i].m_l));
+		pthread_mutex_destroy(&(e->phi[i].m_eat));
 	}
-	return (NULL);
+	free(e->phi);
 }
-void	*two(void *args)
+
+static void	check_cond(t_env *e)
 {
-	int *num = (int *)args;
-	while (*num < SUM)
+	int	i;
+
+	while (1)
 	{
-		mutex_handle(&mutex, LOCK);
-		if (*num + 2 <= SUM)
+		i = 0;
+		while (i < e->n_phi)
 		{
-			printf("Thread 2: Counter + 2 = %d\n", *num + 2);
-			*num += 2;
+			usleep(1000);
+			if (check_starvation(&(e->phi[i])))
+				return ;
+			i++;
 		}
-		mutex_handle(&mutex, UNLOCK);
 	}
-	return (NULL);
 }
-void	*three(void *args)
+
+int	main(int ac, char **av)
 {
-	int *num = (int *)args;
-	while (*num < SUM)
+	t_env	e;
+
+	if (ac != 5 && ac != 6)
+		return (print_error_msg("INput must be 4 or 5 integer!"));
+	if (parse_input(&e, ac, av))
+		return (print_error_msg("Parse Input Failed!"));
+	if (e.n_phi == 1)
 	{
-		mutex_handle(&mutex, LOCK);
-		if (*num + 3 <= SUM)
-		{
-			printf("Thread 3: Counter + 3 = %d\n", *num + 3);
-			*num += 3;
-		}
-		mutex_handle(&mutex, UNLOCK);
+		printf("0 Philosopher 1 has taken a fork.\n");
+		usleep(e.t_die * 1000);
+		printf("%d Philosopher 1 died.\n", e.t_die);
+		return (EXIT_FAILURE);
 	}
-	return (NULL);
+	if (init_table(&e))
+		return (print_error_msg("Init table failed!"));
+	if (start_dinner(&e))
+	{
+		clean_table(&e);
+		return (print_error_msg("start dinner failed!"));
+	}
+	check_cond(&e);
+	join_threads(&e);
+	clean_table(&e);
+	return (EXIT_SUCCESS);
 }
-
-int main(void)
-{
-	pthread_t one1, two2, three3;
-
-	int i = 0;
-	mutex_handle(&mutex, INIT);
-
-	thread_handle(&one1, one, &i, CREATE);
-	thread_handle(&two2, two, &i, CREATE);
-	thread_handle(&three3, three, &i, CREATE);
-
-	thread_handle(&one1, one, &i, JOIN);
-	thread_handle(&two2, two, &i, JOIN);
-	thread_handle(&three3, three, &i, JOIN);
-
-	printf("value at the end %d\n", i);
-	mutex_handle(&mutex, DESTROY);
-}
-
-
-// int	main(int ac, char **av)
-// {
-// 	// t_table	table;
-
-// 	// if (ac != 5 && ac != 6)
-// 	// 	print_error("Error: Invalid argument!");
-// 	// //parse input
-// 	// fn_input_parse(&table, av);
-// 	// print_table(&table);
-// 	(void)ac;
-// 	(void)av;
-// 	pthread_t t1, t2;
-// 	long i = 0;
-	
-// 	thread_handle(&t1, func, &i, CREATE);
-// 	thread_handle(&t2, func, &i, CREATE);
-
-// 	thread_handle(&t1, NULL, &i, JOIN);
-// 	thread_handle(&t2, NULL, &i, JOIN);
-// 	//data init
-// 	printf("%ld\n", i);
-// 	//simulation
-
-// 	//clean
-	
-// 	return (EXIT_SUCCESS);
-// }
