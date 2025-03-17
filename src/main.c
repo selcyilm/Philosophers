@@ -10,85 +10,41 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
-static void	join_threads(t_env *e)
-{
-	int	i;
+#include "../include/philo.h"
 
-	i = -1;
-	pthread_join(e->printer, NULL);
-	while (++i < e->n_phi)
-		pthread_join(e->phi[i].philo, NULL);
+
+t_app_state	fn_start(t_table *table, int ac, char **av)
+{
+	printf("Start dinner!\n");
+	(void)table;
+	(void)ac;
+	(void)av;
+	return (STATE_FINISH);
 }
 
-static void	clean_table(t_env *e)
+
+static void	fn_state_func_init(t_state_fn *func)
 {
-	t_list	*tmp;
-	t_list	*cur;
-	int		i;
-
-	pthread_mutex_destroy(&e->m_print);
-	i = -1;
-	while (++i < e->n_phi)
-		pthread_mutex_destroy(&(e->fork[i]));
-	free(e->fork);
-	i = -1;
-	while (++i < e->n_phi)
-	{
-		cur = e->phi[i].l;
-		while (cur)
-		{
-			tmp = cur;
-			cur = cur->next;
-			free(tmp);
-		}
-		pthread_mutex_destroy(&(e->phi[i].m_l));
-		pthread_mutex_destroy(&(e->phi[i].m_eat));
-	}
-	free(e->phi);
-}
-
-static void	check_cond(t_env *e)
-{
-	int	i;
-
-	while (1)
-	{
-		i = 0;
-		while (i < e->n_phi)
-		{
-			usleep(1000);
-			if (check_starvation(&(e->phi[i])))
-				return ;
-			i++;
-		}
-	}
+	func[STATE_PARS] = fn_parse;
+	func[STATE_INIT] = fn_init;
+	func[STATE_START_DINNER] = fn_start;
+	func[STATE_ERROR] = fn_error;
 }
 
 int	main(int ac, char **av)
 {
-	t_env	e;
+	t_table		table;
+	t_state_fn	state_map[STATE_FINISH];
+	t_app_state	state;
 
-	if (ac != 5 && ac != 6)
-		return (print_error_msg("INput must be 4 or 5 integer!"));
-	if (parse_input(&e, ac, av))
-		return (print_error_msg("Parse Input Failed!"));
-	if (e.n_phi == 1)
+	fn_state_func_init(state_map);
+	state = STATE_PARS;
+	while (state != STATE_FINISH)
 	{
-		printf("0 Philosopher 1 has taken a fork.\n");
-		usleep(e.t_die * 1000);
-		printf("%d Philosopher 1 died.\n", e.t_die);
+		state = state_map[state](&table, ac, av);
+	}
+	if (table.err_info.err_no != NO_ERROR)
 		return (EXIT_FAILURE);
-	}
-	if (init_table(&e))
-		return (print_error_msg("Init table failed!"));
-	if (start_dinner(&e))
-	{
-		clean_table(&e);
-		return (print_error_msg("start dinner failed!"));
-	}
-	check_cond(&e);
-	join_threads(&e);
-	clean_table(&e);
+	fn_clean(&table);
 	return (EXIT_SUCCESS);
 }

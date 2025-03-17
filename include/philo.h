@@ -6,7 +6,7 @@
 /*   By: selcyilm <selcyilm@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/24 20:36:04 by selcyilm      #+#    #+#                 */
-/*   Updated: 2024/12/23 17:34:18 by selcyilm      ########   odam.nl         */
+/*   Updated: 2025/03/17 22:06:20 by selcyilm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PHILO_H
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
 # include <unistd.h>
 # include <stdbool.h>
 # include <unistd.h>
@@ -21,75 +22,102 @@
 # include <limits.h>
 # include <errno.h>
 # include <pthread.h>
+# include <time.h>
 
-typedef pthread_mutex_t t_mtx;
-
-typedef struct s_list
+typedef enum e_philo_state
 {
-	long			ms;
-	int				i;
-	char			s[20];
-	struct s_list	*next;
-}	t_list;
+	EATING,
+	SLEEPING,
+	THINKING,
+	FORK
+}	t_phio_state;
 
-typedef struct s_env
+typedef enum e_error
 {
-	int	c_meal;
-	int	end;
-	long	start;
-	struct s_phi	*phi;
-	t_mtx			*fork;
-	t_mtx			m_print;
-	pthread_t		printer;
-	int				t_die;
-	int				t_eat;
-	int				t_sleep;
-	int				n_phi;
-	int				n_meal;
-}	t_env;
+	NO_ERROR,
+	INVALID_ARG,
+	INVALID_PHILO_NUM,
+	INVALID_ARG_NOT_POS,
+	ATOI_OVERFLOW,
+	THREAD,
+	JOIN,
+	MUTEX_INIT,
+	MUTEX_LOCK,
+	MUTEX_UNLOCK,
+	MALLOC_FAIL,
+	USLEEP_ERR,
+	TIME_ERR
+}	t_error;
 
-typedef struct s_phi
+typedef enum e_app_state
 {
-	int	id;
-	int	end;
-	int	c_meal;
-	long	t_ate;
-	t_env	*e;
-	t_list	*l;
-	pthread_t	philo;
-	t_mtx		m_eat;
-	t_mtx		m_l;
-}	t_phi;
+	STATE_PARS,
+	STATE_INIT,
+	STATE_START_DINNER,
+	STATE_ERROR,
+	STATE_FINISH
+}	t_app_state;
 
+typedef struct s_error_info
+{
+	t_error err_no;
+	int		is_allocated;
+	int		mutex_start;
+	int		mutex_print;
+	int		mutex_fork_index;
+	int		mutex_philo_index;
+}	t_error_info;
+
+
+typedef struct s_philo
+{
+	pthread_t		thread;
+	int				p_id;
+	bool			is_alive;
+	int				number_of_meal_eaten;
+	long			last_meal_time;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
+	pthread_mutex_t	lock;
+	struct s_table	*table;
+}	t_philo;
+
+
+typedef struct s_table
+{
+	int				number_of_philo;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				must_eat;
+	long			start_time;
+	bool			start;
+	t_error_info	err_info;
+	t_philo			*philos;
+	pthread_mutex_t	*forks;
+	pthread_mutex_t	start_lock;
+	pthread_mutex_t	print_lock;
+}	t_table;
+
+typedef t_app_state (*t_state_fn)(t_table *, int, char **);
 
 //PARSE
-int		parse_input(t_env *e, int ac, char **av);
+t_app_state	fn_parse(t_table *table, int ac, char **av);
 
 //INIT_TABLE
-int		init_table(t_env *e);
+t_app_state	fn_init(t_table *table, int ac, char **av);
 
-//UTILS
-int		print_error_msg(const char *msg);
-int		ft_strcmp(char *s1, char *s2);
+//START
 
-//PRINTER
-void	*thread_printer(void *input);
-int		check_end(t_env *e);
-
-//PRINT
-int		count_meal(t_phi *p, t_list *l);
-int		add_cond(long ms, t_phi *p, char *s);
-
-//PHILO
-void	*thread_philo(void *input);
-int		check_starvation(t_phi *p);
+//CLEAN
+void		fn_clean(t_table *table);
 
 //TIME
-void	ft_better_sleep(long time);
-long	dinner_time(t_env *e);
-long	cur_time(void);
+long		get_current_time(void);
+long		get_program_time(long start_time);
+void		ft_sleep(long mili_sec);
 
-//DINNER
-int		start_dinner(t_env *e);
+//ERROR
+t_app_state	fn_error(t_table *table, int ac, char **av);
 
 #endif

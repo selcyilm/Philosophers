@@ -6,17 +6,17 @@
 #    By: selcyilm <selcyilm@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/11/24 20:36:11 by selcyilm      #+#    #+#                  #
-#    Updated: 2024/12/23 20:10:19 by selcyilm      ########   odam.nl          #
+#    Updated: 2025/03/17 21:58:22 by selcyilm      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
-SRCS =dinner.c  init_table.c  main.c  parse_input.c  philo.c  print.c  printer.c  time.c  utils.c 
+SRCS = main.c fn_parse.c fn_error.c fn_init.c fn_clean.c time_utils.c
 
 SRC_DIR = src
 OBJ_DIR = obj
-INCLUDE = include
+INCLUDE = -I include
 
 OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
@@ -31,14 +31,14 @@ COLOUR_ORANGE=\033[38;5;214m
 all: $(NAME)
 
 $(NAME) : $(OBJ_DIR) $(OBJS)
-	@$(CC) $(OBJS)  -o $(NAME)
+	@$(CC) $(OBJS) -o $(NAME)
 	@echo "$(COLOUR_ORANGE)PHILOSOPERS ARE READY TO GO..$(COLOUR_END)"
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
-	@$(CC) -I$(INCLUDE) -c $< -o $@
+	@$(CC) -c $< -o $@
 	@echo "$(COLOUR_GREEN)CREATING $@$(COLOUR_END)"
 
 clean: 
