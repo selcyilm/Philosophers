@@ -6,7 +6,7 @@
 /*   By: selcyilm <selcyilm@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/24 20:36:04 by selcyilm      #+#    #+#                 */
-/*   Updated: 2025/03/17 22:06:20 by selcyilm      ########   odam.nl         */
+/*   Updated: 2025/03/18 13:57:29 by selcyilm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,13 @@ typedef enum e_app_state
 
 typedef struct s_error_info
 {
-	t_error err_no;
+	t_error	err_no;
 	int		is_allocated;
 	int		mutex_start;
 	int		mutex_print;
 	int		mutex_fork_index;
 	int		mutex_philo_index;
 }	t_error_info;
-
 
 typedef struct s_philo
 {
@@ -81,7 +80,6 @@ typedef struct s_philo
 	pthread_mutex_t	lock;
 	struct s_table	*table;
 }	t_philo;
-
 
 typedef struct s_table
 {
@@ -99,7 +97,7 @@ typedef struct s_table
 	pthread_mutex_t	print_lock;
 }	t_table;
 
-typedef t_app_state (*t_state_fn)(t_table *, int, char **);
+typedef t_app_state	(*t_state_fn)(t_table *, int, char **);
 
 //PARSE
 t_app_state	fn_parse(t_table *table, int ac, char **av);
@@ -108,6 +106,9 @@ t_app_state	fn_parse(t_table *table, int ac, char **av);
 t_app_state	fn_init(t_table *table, int ac, char **av);
 
 //START
+
+//PRINT
+t_error		print_msg(t_philo *philo, t_phio_state state);
 
 //CLEAN
 void		fn_clean(t_table *table);

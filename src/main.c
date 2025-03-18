@@ -6,12 +6,11 @@
 /*   By: selcyilm <selcyilm@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/24 20:36:08 by selcyilm      #+#    #+#                 */
-/*   Updated: 2024/12/22 18:46:27by selcyilm      ########   odam.nl         */
+/*   Updated: 2025/03/18 13:56:53 by selcyilm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
-
 
 t_app_state	fn_start(t_table *table, int ac, char **av)
 {
@@ -21,7 +20,6 @@ t_app_state	fn_start(t_table *table, int ac, char **av)
 	(void)av;
 	return (STATE_FINISH);
 }
-
 
 static void	fn_state_func_init(t_state_fn *func)
 {

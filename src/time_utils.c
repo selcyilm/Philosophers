@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   time_utils.c                                       :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: selcyilm <selcyilm@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/03/18 13:56:04 by selcyilm      #+#    #+#                 */
+/*   Updated: 2025/03/18 13:56:24 by selcyilm      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/philo.h"
 
 long	get_current_time(void)
@@ -5,7 +17,7 @@ long	get_current_time(void)
 	struct timeval	tv;
 	long			milisecond;
 
-	if(gettimeofday(&tv, NULL))
+	if (gettimeofday(&tv, NULL))
 		return (-1);
 	milisecond = tv.tv_sec * 1000 + tv.tv_usec / 1000;
 	return (milisecond);
@@ -28,7 +40,6 @@ t_error	ft_sleep(long mili_sec)
 	current_time = get_current_time();
 	if (current_time == -1)
 		return (USLEEP_ERR);
-	//how to hell am i gonna check inside the while loop with norminette
 	while (get_current_time() - current_time < mili_sec)
 	{
 		if (usleep(250))

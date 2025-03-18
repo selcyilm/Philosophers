@@ -1,16 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   fn_error.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: selcyilm <selcyilm@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/03/18 13:50:08 by selcyilm      #+#    #+#                 */
+/*   Updated: 2025/03/18 13:51:50 by selcyilm      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/philo.h"
 
 static void	error_msg(t_error status)
 {
 	static char	*error[14];
-	
+
 	if (error[0] == NULL)
 	{
 		error[NO_ERROR] = "No Error";
 		error[INVALID_ARG] = "Invalid Arguments";
 		error[INVALID_PHILO_NUM] = "Invalid Philo Number";
-		error[INVALID_ARG_NOT_POS] = "Invalid arg, arg should be positive number";
-		error[ATOI_OVERFLOW] = "Invalid arg, atoi overflow detected",
+		error[INVALID_ARG_NOT_POS] = "Invalid arg, should be positive number";
+		error[ATOI_OVERFLOW] = "Invalid arg, atoi overflow detected";
 		error[THREAD] = "Theread init failure";
 		error[JOIN] = "Thread Join Failure";
 		error[MUTEX_INIT] = "Mutex init Failure";
@@ -50,7 +62,6 @@ static void	clear_alloc(t_table *table)
 
 t_app_state	fn_error(t_table *table, int ac, char **av)
 {
-
 	printf("Error!\n");
 	error_msg(table->err_info.err_no);
 	clear_mutex(table);

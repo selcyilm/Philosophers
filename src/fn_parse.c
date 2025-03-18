@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   fn_parse.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: selcyilm <selcyilm@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/03/18 13:52:16 by selcyilm      #+#    #+#                 */
+/*   Updated: 2025/03/18 13:53:21 by selcyilm      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/philo.h"
 
 static bool	is_numeric_str(char *str)
@@ -16,7 +28,9 @@ static bool	is_numeric_str(char *str)
 
 static t_error	fn_pars_check_numeric(char **av)
 {
-	int	i = 1;
+	int	i;
+
+	i = 1;
 	while (av[i])
 	{
 		if (is_numeric_str(av[i]) == false)
@@ -45,10 +59,10 @@ static int	ft_atoi(char *str)
 
 static bool	is_there_overflow(t_table *table)
 {
-	return (table->time_to_die == -1 ||
-		table->time_to_eat == -1 ||
-		table->time_to_sleep == -1 ||
-		table->must_eat == -1);
+	return (table->time_to_die == -1
+		|| table->time_to_eat == -1
+		|| table->time_to_sleep == -1
+		|| table->must_eat == -1);
 }
 
 t_app_state	fn_parse(t_table *table, int ac, char **av)

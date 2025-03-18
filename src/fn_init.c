@@ -1,16 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   fn_init.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: selcyilm <selcyilm@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/03/18 13:54:27 by selcyilm      #+#    #+#                 */
+/*   Updated: 2025/03/18 13:59:23 by selcyilm      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/philo.h"
 
 static void	select_fork(t_table *table, t_philo *philo)
 {
-	if (philo->p_id % 2 == 0)
+	int	p_id;
+
+	p_id = philo->p_id;
+	if (p_id % 2 == 0)
 	{
-		philo->right_fork = &(table->forks[philo->p_id - 1]);
-		philo->left_fork = &(table->forks[philo->p_id % table->number_of_philo]);
+		philo->right_fork = &(table->forks[p_id - 1]);
+		philo->left_fork = &(table->forks[p_id % table->number_of_philo]);
 	}
 	else
 	{
-		philo->right_fork = &(table->forks[philo->p_id % table->number_of_philo]);
-		philo->left_fork = &(table->forks[philo->p_id - 1]);
+		philo->right_fork = &(table->forks[p_id % table->number_of_philo]);
+		philo->left_fork = &(table->forks[p_id - 1]);
 	}
 }
 
@@ -33,7 +48,7 @@ static t_error	fn_init_forks(t_table *table)
 	return (NO_ERROR);
 }
 
-static t_error fn_init_philos(t_table *table)
+static t_error	fn_init_philos(t_table *table)
 {
 	int	i;
 
