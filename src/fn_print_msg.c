@@ -6,7 +6,7 @@
 /*   By: selcyilm <selcyilm@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/18 13:53:31 by selcyilm      #+#    #+#                 */
-/*   Updated: 2025/03/18 13:54:14 by selcyilm      ########   odam.nl         */
+/*   Updated: 2025/03/18 18:16:01 by selcyilm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static char	*message_str(t_phio_state state)
 {
-	static char	*message[FORK + 1];
+	static char	*message[DIED + 1];
 
 	if (message[0] == NULL)
 	{
@@ -22,6 +22,7 @@ static char	*message_str(t_phio_state state)
 		message[SLEEPING] = "is sleeping";
 		message[THINKING] = "is thinking";
 		message[FORK] = "has taken a fork";
+		message[DIED] = "has died";
 	}
 	return (message[state]);
 }
@@ -35,4 +36,5 @@ t_error	print_msg(t_philo *philo, t_phio_state state)
 		message_str(state));
 	if (pthread_mutex_unlock(&philo->table->print_lock))
 		return (MUTEX_UNLOCK);
+	return (NO_ERROR);
 }

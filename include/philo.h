@@ -6,7 +6,7 @@
 /*   By: selcyilm <selcyilm@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/24 20:36:04 by selcyilm      #+#    #+#                 */
-/*   Updated: 2025/03/18 13:57:29 by selcyilm      ########   odam.nl         */
+/*   Updated: 2025/03/18 15:20:46 by selcyilm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ typedef enum e_philo_state
 	EATING,
 	SLEEPING,
 	THINKING,
-	FORK
+	FORK,
+	DIED
 }	t_phio_state;
 
 typedef enum e_error
@@ -66,6 +67,7 @@ typedef struct s_error_info
 	int		mutex_print;
 	int		mutex_fork_index;
 	int		mutex_philo_index;
+	int		join_index;
 }	t_error_info;
 
 typedef struct s_philo
@@ -106,6 +108,7 @@ t_app_state	fn_parse(t_table *table, int ac, char **av);
 t_app_state	fn_init(t_table *table, int ac, char **av);
 
 //START
+t_error		join_threads(t_table *table, int size);
 
 //PRINT
 t_error		print_msg(t_philo *philo, t_phio_state state);
@@ -116,7 +119,7 @@ void		fn_clean(t_table *table);
 //TIME
 long		get_current_time(void);
 long		get_program_time(long start_time);
-void		ft_sleep(long mili_sec);
+t_error		ft_sleep(long mili_sec);
 
 //ERROR
 t_app_state	fn_error(t_table *table, int ac, char **av);
