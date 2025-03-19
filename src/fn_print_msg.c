@@ -6,7 +6,7 @@
 /*   By: selcyilm <selcyilm@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/18 13:53:31 by selcyilm      #+#    #+#                 */
-/*   Updated: 2025/03/18 18:16:01 by selcyilm      ########   odam.nl         */
+/*   Updated: 2025/03/19 12:18:37 by selcyilm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,13 @@ t_error	print_msg(t_philo *philo, t_phio_state state)
 {
 	if (pthread_mutex_lock(&philo->table->print_lock))
 		return (MUTEX_LOCK);
-	printf("%ld %d %s\n", get_program_time(philo->table->start_time),
-		philo->p_id,
-		message_str(state));
-	if (pthread_mutex_unlock(&philo->table->print_lock))
+	if (is_philo_dead(philo) != true)
+	{
+		printf("%ld %d %s\n", get_program_time(philo->table->start_time),
+			philo->p_id,
+			message_str(state));
+	}
+		if (pthread_mutex_unlock(&philo->table->print_lock))
 		return (MUTEX_UNLOCK);
 	return (NO_ERROR);
 }

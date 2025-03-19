@@ -6,7 +6,7 @@
 /*   By: selcyilm <selcyilm@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/24 20:36:04 by selcyilm      #+#    #+#                 */
-/*   Updated: 2025/03/18 15:20:46 by selcyilm      ########   odam.nl         */
+/*   Updated: 2025/03/19 12:16:59 by selcyilm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ t_app_state	fn_init(t_table *table, int ac, char **av);
 
 //START
 t_error		join_threads(t_table *table, int size);
+bool		is_philo_dead(t_philo *philo);
 
 //PRINT
 t_error		print_msg(t_philo *philo, t_phio_state state);
