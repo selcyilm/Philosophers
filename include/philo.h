@@ -6,7 +6,7 @@
 /*   By: selcyilm <selcyilm@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/24 20:36:04 by selcyilm      #+#    #+#                 */
-/*   Updated: 2025/03/19 12:16:59 by selcyilm      ########   odam.nl         */
+/*   Updated: 2025/03/19 13:34:17 by selcyilm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,15 @@ t_app_state	fn_parse(t_table *table, int ac, char **av);
 t_app_state	fn_init(t_table *table, int ac, char **av);
 
 //START
+t_app_state	fn_start(t_table *table, int ac, char **av);
 t_error		join_threads(t_table *table, int size);
 bool		is_philo_dead(t_philo *philo);
+
+//EAT_SLEEP_THINK
+void	eat_sleep_think(t_philo *philo);
+
+//MONITOR
+void		monitor(t_table *table);
 
 //PRINT
 t_error		print_msg(t_philo *philo, t_phio_state state);
@@ -121,6 +128,12 @@ void		fn_clean(t_table *table);
 long		get_current_time(void);
 long		get_program_time(long start_time);
 t_error		ft_sleep(long mili_sec);
+void		philo_wait(t_philo *philo, int msec);
+
+//THREAD_UTILS
+bool		is_philo_dead(t_philo *philo);
+t_error		join_threads(t_table *table, int size);
+void		kill_all(t_table *table);
 
 //ERROR
 t_app_state	fn_error(t_table *table, int ac, char **av);

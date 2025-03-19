@@ -6,7 +6,7 @@
 /*   By: selcyilm <selcyilm@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/18 13:53:31 by selcyilm      #+#    #+#                 */
-/*   Updated: 2025/03/19 12:18:37 by selcyilm      ########   odam.nl         */
+/*   Updated: 2025/03/19 13:51:51 by selcyilm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,27 @@ static char	*message_str(t_phio_state state)
 		message[SLEEPING] = "is sleeping";
 		message[THINKING] = "is thinking";
 		message[FORK] = "has taken a fork";
-		message[DIED] = "has died";
+		message[DIED] = "died";
 	}
 	return (message[state]);
 }
 
-t_error	print_msg(t_philo *philo, t_phio_state state)
+void	print_msg(t_philo *philo, t_phio_state state)
 {
 	if (pthread_mutex_lock(&philo->table->print_lock))
-		return (MUTEX_LOCK);
+	{
+		philo->table->err_info.err_no = MUTEX_LOCK;
+		return ;
+	}
 	if (is_philo_dead(philo) != true)
 	{
 		printf("%ld %d %s\n", get_program_time(philo->table->start_time),
 			philo->p_id,
 			message_str(state));
 	}
-		if (pthread_mutex_unlock(&philo->table->print_lock))
-		return (MUTEX_UNLOCK);
-	return (NO_ERROR);
+	if (pthread_mutex_unlock(&philo->table->print_lock))
+	{
+		philo->table->err_info.err_no = MUTEX_UNLOCK;
+		return ;
+	}
 }

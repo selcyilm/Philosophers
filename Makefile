@@ -6,13 +6,14 @@
 #    By: selcyilm <selcyilm@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/11/24 20:36:11 by selcyilm      #+#    #+#                  #
-#    Updated: 2025/03/18 13:45:08 by selcyilm      ########   odam.nl          #
+#    Updated: 2025/03/19 13:33:38 by selcyilm      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
-SRCS = main.c fn_parse.c fn_error.c fn_init.c fn_clean.c time_utils.c fn_print_msg.c
+SRCS = eat_sleep_think.c fn_error.c fn_parse.c fn_start.c  monitor.c time_utils.c \
+fn_clean.c fn_init.c fn_print_msg.c main.c thread_utils.c
 
 SRC_DIR = src
 OBJ_DIR = obj

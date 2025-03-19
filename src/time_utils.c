@@ -6,7 +6,7 @@
 /*   By: selcyilm <selcyilm@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/18 13:56:04 by selcyilm      #+#    #+#                 */
-/*   Updated: 2025/03/18 15:20:33 by selcyilm      ########   odam.nl         */
+/*   Updated: 2025/03/19 13:28:06 by selcyilm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,13 @@ t_error	ft_sleep(long mili_sec)
 			return (USLEEP_ERR);
 	}
 	return (NO_ERROR);
+}
+
+void	philo_wait(t_philo *philo, int msec)
+{
+	long	time;
+
+	time = get_current_time();
+	while (get_current_time() - time < msec && !is_philo_dead(philo))
+		usleep(250);
 }
