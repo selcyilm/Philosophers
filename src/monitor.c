@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   monitor.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: selcyilm <selcyilm@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/03/19 15:26:08 by selcyilm      #+#    #+#                 */
+/*   Updated: 2025/03/19 15:26:17 by selcyilm      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/philo.h"
 
 static bool	is_everyone_alive(t_table *table)
@@ -10,7 +22,8 @@ static bool	is_everyone_alive(t_table *table)
 		if (is_philo_dead(&table->philos[i]))
 		{
 			kill_all(table);
-			printf("%ld %d has died\n", get_program_time(table->start_time), 
+			printf("%ld %d has died\n",
+				get_program_time(table->start_time),
 				table->philos[i].p_id);
 			return (false);
 		}

@@ -6,7 +6,7 @@
 /*   By: selcyilm <selcyilm@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/24 20:36:04 by selcyilm      #+#    #+#                 */
-/*   Updated: 2025/03/19 13:34:17 by selcyilm      ########   odam.nl         */
+/*   Updated: 2025/03/19 15:24:21 by selcyilm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ t_error		join_threads(t_table *table, int size);
 bool		is_philo_dead(t_philo *philo);
 
 //EAT_SLEEP_THINK
-void	eat_sleep_think(t_philo *philo);
+void		eat_sleep_think(t_philo *philo);
 
 //MONITOR
 void		monitor(t_table *table);

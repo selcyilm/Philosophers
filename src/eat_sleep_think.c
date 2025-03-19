@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   eat_sleep_think.c                                  :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: selcyilm <selcyilm@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/03/19 15:24:32 by selcyilm      #+#    #+#                 */
+/*   Updated: 2025/03/19 15:25:47 by selcyilm      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/philo.h"
 
 bool	take_forks(t_philo *philo)
@@ -6,10 +18,11 @@ bool	take_forks(t_philo *philo)
 		return (false);
 	if (philo->number_of_meal_eaten != 0)
 	{
-		if (philo->table->time_to_die - (get_current_time() - philo->last_meal_time) > 
-			philo->table->time_to_eat)
-			ft_sleep(philo->table->time_to_die - 
-				(get_current_time() - philo->last_meal_time) - philo->table->time_to_eat);
+		if (philo->table->time_to_die - (get_current_time() \
+			- philo->last_meal_time) > philo->table->time_to_eat)
+			ft_sleep(philo->table->time_to_die
+				- (get_current_time() - philo->last_meal_time)
+				- philo->table->time_to_eat);
 	}
 	pthread_mutex_lock(philo->right_fork);
 	print_msg(philo, FORK);
