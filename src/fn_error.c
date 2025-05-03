@@ -6,7 +6,7 @@
 /*   By: selcyilm <selcyilm@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/18 13:50:08 by selcyilm      #+#    #+#                 */
-/*   Updated: 2025/03/18 14:29:01 by selcyilm      ########   odam.nl         */
+/*   Updated: 2025/05/03 17:25:40 by selcyilm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,12 @@ static void	clear_alloc(t_table *table)
 
 t_app_state	fn_error(t_table *table, int ac, char **av)
 {
+	(void)ac;
+	(void)av;
 	printf("Error!\n");
 	error_msg(table->err_info.err_no);
 	join_threads(table, table->err_info.join_index);
 	clear_mutex(table);
 	clear_alloc(table);
-	(void)ac;
-	(void)av;
 	return (STATE_FINISH);
 }
