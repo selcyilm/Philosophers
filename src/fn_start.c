@@ -6,7 +6,7 @@
 /*   By: selcyilm <selcyilm@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/19 15:24:11 by selcyilm      #+#    #+#                 */
-/*   Updated: 2025/03/19 15:24:12 by selcyilm      ########   odam.nl         */
+/*   Updated: 2025/05/05 13:20:03 by selcyilm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ t_app_state	fn_start(t_table *table, int ac, char **av)
 
 	(void)ac;
 	(void)av;
-	if (pthread_mutex_lock(&table->start_lock))
-		return (table->err_info.err_no = MUTEX_LOCK, STATE_ERROR);
+	pthread_mutex_lock(&table->start_lock);
 	i = 0;
 	while (i < table->number_of_philo)
 	{
@@ -60,8 +59,7 @@ t_app_state	fn_start(t_table *table, int ac, char **av)
 	table->start_time = get_current_time();
 	set_philo_time(table);
 	table->start = true;
-	if (pthread_mutex_unlock(&table->start_lock))
-		return (table->err_info.err_no = MUTEX_UNLOCK, STATE_ERROR);
+	pthread_mutex_unlock(&table->start_lock);
 	monitor(table);
 	join_threads(table, table->number_of_philo);
 	return (STATE_FINISH);
