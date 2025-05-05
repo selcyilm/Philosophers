@@ -6,7 +6,7 @@
 /*   By: selcyilm <selcyilm@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/18 13:52:16 by selcyilm      #+#    #+#                 */
-/*   Updated: 2025/03/18 13:53:21 by selcyilm      ########   odam.nl         */
+/*   Updated: 2025/05/05 12:07:09 by selcyilm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ static bool	is_there_overflow(t_table *table)
 
 t_app_state	fn_parse(t_table *table, int ac, char **av)
 {
-	printf("Parse!\n");
 	memset(table, 0, sizeof(t_table));
 	memset(&table->err_info, 0, sizeof(t_error_info));
 	if (ac != 5 && ac != 6)

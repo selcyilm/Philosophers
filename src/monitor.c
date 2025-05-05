@@ -6,7 +6,7 @@
 /*   By: selcyilm <selcyilm@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/19 15:26:08 by selcyilm      #+#    #+#                 */
-/*   Updated: 2025/03/19 15:26:17 by selcyilm      ########   odam.nl         */
+/*   Updated: 2025/05/05 12:06:56 by selcyilm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ static bool	is_everyone_ate(t_table *table)
 
 void	monitor(t_table *table)
 {
-	printf("monitor\n");
 	usleep(table->number_of_philo * 1000);
 	while (true)
 	{

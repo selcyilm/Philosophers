@@ -6,7 +6,7 @@
 /*   By: selcyilm <selcyilm@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/18 13:52:00 by selcyilm      #+#    #+#                 */
-/*   Updated: 2025/03/18 13:52:07 by selcyilm      ########   odam.nl         */
+/*   Updated: 2025/05/05 12:07:25 by selcyilm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static void	clear_alloc(t_table *table)
 
 void	fn_clean(t_table *table)
 {
-	printf("End clean!\n");
 	clear_mutex(table);
 	clear_alloc(table);
 }

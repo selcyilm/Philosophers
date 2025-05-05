@@ -6,7 +6,7 @@
 /*   By: selcyilm <selcyilm@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/18 13:54:27 by selcyilm      #+#    #+#                 */
-/*   Updated: 2025/03/18 13:59:23 by selcyilm      ########   odam.nl         */
+/*   Updated: 2025/05/05 12:08:05 by selcyilm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ static t_error	fn_init_philos(t_table *table)
 
 t_app_state	fn_init(t_table *table, int ac, char **av)
 {
-	printf("Init!\n");
 	(void)ac;
 	(void)av;
 	if (pthread_mutex_init(&(table->start_lock), NULL) != 0)
