@@ -6,7 +6,7 @@
 /*   By: selcyilm <selcyilm@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/24 20:36:04 by selcyilm      #+#    #+#                 */
-/*   Updated: 2025/03/19 21:34:44 by selcyilm      ########   odam.nl         */
+/*   Updated: 2025/05/05 16:41:15 by selcyilm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,7 @@ typedef enum e_error
 	THREAD,
 	JOIN,
 	MUTEX_INIT,
-	MUTEX_LOCK,
-	MUTEX_UNLOCK,
 	MALLOC_FAIL,
-	USLEEP_ERR,
-	TIME_ERR
 }	t_error;
 
 typedef enum e_app_state

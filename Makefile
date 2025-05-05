@@ -6,7 +6,7 @@
 #    By: selcyilm <selcyilm@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/11/24 20:36:11 by selcyilm      #+#    #+#                  #
-#    Updated: 2025/05/05 12:13:59 by selcyilm      ########   odam.nl          #
+#    Updated: 2025/05/05 16:34:31 by selcyilm      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,8 @@ INCLUDE = -I include
 
 OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
-CC = cc -Wall -Werror -Wextra -g3 -fsanitize=address,undefined,leak
-#CC = cc -Wall -Werror -Wextra -g3 -fsanitize=thread -pthread
+#CC = cc -Wall -Werror -Wextra -g3 -fsanitize=address,undefined,leak
+CC = cc -Wall -Werror -Wextra -g3 -fsanitize=thread -pthread
 
 COLOUR_GREEN=\033[32;01m
 COLOUR_BLUE=\033[0;36m

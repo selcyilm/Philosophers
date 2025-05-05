@@ -6,7 +6,7 @@
 /*   By: selcyilm <selcyilm@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/18 13:50:08 by selcyilm      #+#    #+#                 */
-/*   Updated: 2025/05/05 13:03:19 by selcyilm      ########   odam.nl         */
+/*   Updated: 2025/05/05 16:41:27 by selcyilm      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	error_msg(t_error status)
 {
-	static char	*error[14];
+	static char	*error[9];
 
 	if (error[0] == NULL)
 	{
@@ -26,11 +26,7 @@ static void	error_msg(t_error status)
 		error[THREAD] = "Theread init failure";
 		error[JOIN] = "Thread Join Failure";
 		error[MUTEX_INIT] = "Mutex init Failure";
-		error[MUTEX_LOCK] = "Mutex Lock Failure";
-		error[MUTEX_UNLOCK] = "Mutex Unlock Failure";
 		error[MALLOC_FAIL] = "Memory Allocation Failure";
-		error[USLEEP_ERR] = "Usleep Failure";
-		error[TIME_ERR] = "GetTimeofday Failure";
 	}
 	printf("Error: %s\n", error[status]);
 }
